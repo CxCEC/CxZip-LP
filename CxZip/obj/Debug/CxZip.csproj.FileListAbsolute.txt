@@ -1,0 +1,9 @@
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\extensions.txt
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\CxZip.exe.config
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\CxZip.exe
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\CxZip.pdb
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\obj\Debug\CxZip.exe
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\obj\Debug\CxZip.pdb
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\DotNetZip.dll
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\bin\Debug\DotNetZip.xml
+c:\users\administrator\onedrive - checkmarx\cx vm\documents\visual studio 2017\Projects\CxZip\CxZip\obj\Debug\CxZip.csprojResolveAssemblyReference.cache

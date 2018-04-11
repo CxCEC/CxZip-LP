@@ -1,0 +1,146 @@
+﻿using System;
+using System.Collections.Generic;
+using Ionic.Zip;
+using System.IO;
+
+//requires .net 4.6.2 to support long paths > 260 characters
+
+namespace CxZip
+{
+    class Program
+    {
+        static string VERSION = "1.0";
+        static string dest = "out.zip";
+        static string src = @"c:\long_path";
+        static string whitelist_src = "extensions.txt";
+        static List<cxFile> file_list = new List<cxFile>();
+        static List<string> whiteList = new List<string>();
+
+        static int longest_path = 0;
+        static int file_count = 0;
+
+        static void Main(string[] args)
+        {
+            if (args.Length == 3)
+            {
+                try
+                {
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                    src = args[0];
+                    dest = args[1];
+                    whitelist_src = args[2];
+
+                    buildWhiteList(whitelist_src);
+                    main();
+
+                    watch.Stop();
+                    TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+
+                    Console.WriteLine();
+                    Console.WriteLine("Files added to archived:  " + file_count);
+                    Console.WriteLine("Length of longest path in archived:  " + longest_path);
+                    Console.WriteLine("Time to complete:  " + string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms", t.Hours, t.Minutes, t.Seconds, t.Milliseconds));
+                }//end try
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.Write(ex.StackTrace);
+                }//end catch
+            }//end if
+            else
+                usage();
+        }//end Main
+
+        private static void usage()
+        {
+            Console.WriteLine("CxZip for Windows supporting long paths (> 260 characters)");
+            Console.WriteLine("version " + VERSION);
+            Console.WriteLine("(c) 2018 Checkmarx | www.checkmarx.com");
+            Console.WriteLine("Runs on .Net Framework v. 4.6.2+");
+            Console.WriteLine();
+            Console.WriteLine("USAGE:  CxZip [src path] [dest path] [whitelist path]");
+            Console.WriteLine(@"E.g.,  CxZip c:\mycode C:\mycode.zip C:\extensions.txt");
+        }//end usage
+
+        private static void main()
+        {
+            try
+            {
+                ProcessDirectory(src);
+            }//end try
+            catch (Exception ex) { throw ex; }
+
+            using (ZipFile archive = new ZipFile())
+            {
+                foreach (cxFile f in file_list)
+                {
+                    string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
+                    Console.WriteLine("Adding: " + rel_f + f.name);
+
+                    if (rel_f.Length > longest_path)
+                        longest_path = rel_f.Length;
+
+                    try
+                    {
+                        archive.AddFile(f.path, rel_f);
+                    }//end try
+                    catch(Exception ex) { throw ex; }
+                }//end foreach
+                Console.WriteLine();
+                Console.WriteLine("Compressing files...");
+                archive.Save(dest);
+                Console.WriteLine("Archive saved.");
+            }//end using
+        }//end main
+
+        private static void buildWhiteList(string path)
+        {
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines(path);
+                foreach (string line in lines)
+                    whiteList.Add(line.ToLower());
+            }//end try
+            catch(Exception ex) { throw ex; }
+        }//end buildWhiteList
+
+        private static void ProcessDirectory(string targetDirectory)
+        {
+            string[] fileEntries = Directory.GetFiles(targetDirectory);
+            foreach (string fileName in fileEntries)
+                ProcessFile(fileName);
+
+            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            foreach (string subdirectory in subdirectoryEntries)
+                ProcessDirectory(subdirectory);
+        }//end ProcessDirectory
+
+        private static void ProcessFile(string path)
+        {
+            cxFile f = new cxFile(path);
+            if (whiteList.Contains(f.extension.ToLower()))
+            {
+                file_list.Add(new cxFile(path));
+                file_count++;
+            }//end if
+        }//end processFile
+    }//end Program
+
+    class cxFile
+    {
+        public string path, name;
+        public string extension;
+
+        public cxFile(string path)
+        {
+            this.path = path;
+            this.name = new FileInfo(path).Name;
+            try
+            {
+                this.extension = path.Substring(path.LastIndexOf("."));
+            }//end try
+            catch { this.extension = ""; }
+        }//end cxFile
+    }//end cxFile
+}//end CxZip
