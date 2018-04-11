@@ -10,9 +10,9 @@ namespace CxZip
     class Program
     {
         static string VERSION = "1.0";
-        static string dest = "out.zip";
-        static string src = @"c:\long_path";
-        static string whitelist_src = "extensions.txt";
+        static string dest = "";
+        static string src = "";
+        static string whitelist_src = "";
         static List<cxFile> file_list = new List<cxFile>();
         static List<string> whiteList = new List<string>();
 
@@ -39,7 +39,7 @@ namespace CxZip
 
                     Console.WriteLine();
                     Console.WriteLine("Files added to archived:  " + file_count);
-                    Console.WriteLine("Length of longest path in archived:  " + longest_path);
+                    Console.WriteLine("Length of longest path in archive:  " + longest_path);
                     Console.WriteLine("Time to complete:  " + string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms", t.Hours, t.Minutes, t.Seconds, t.Milliseconds));
                 }//end try
                 catch (Exception ex)
@@ -78,8 +78,8 @@ namespace CxZip
                     string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
                     Console.WriteLine("Adding: " + rel_f + f.name);
 
-                    if (rel_f.Length > longest_path)
-                        longest_path = rel_f.Length;
+                    if ((rel_f + f.name).Length > longest_path)
+                        longest_path = (rel_f + f.name).Length;
 
                     try
                     {
