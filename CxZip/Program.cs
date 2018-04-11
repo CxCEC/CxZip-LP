@@ -9,7 +9,7 @@ namespace CxZip
 {
     class Program
     {
-        static string VERSION = "1.0";
+        static string VERSION = "1.1";
         static string dest = "";
         static string src = "";
         static string whitelist_src = "";
@@ -21,15 +21,19 @@ namespace CxZip
 
         static void Main(string[] args)
         {
-            if (args.Length == 3)
+            if (args.Length == 3 || args.Length == 2)
             {
                 try
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                    src = args[0];
-                    dest = args[1];
-                    whitelist_src = args[2];
+                    src = args[0]; //required
+                    dest = args[1]; //required
+
+                    if (args.Length == 2)
+                        whitelist_src = "CxExt.txt"; //added to emulate existing CxZip functionality, which looks for CxExt.txt in working directory
+                    else
+                        whitelist_src = args[2];  //optional; uses CxExt.txt if not provided
 
                     buildWhiteList(whitelist_src);
                     main();
