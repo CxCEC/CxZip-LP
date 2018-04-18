@@ -9,7 +9,7 @@ namespace CxZip
 {
     class Program
     {
-        static string VERSION = "1.1";
+        static string VERSION = "1.2";
         static string dest = "";
         static string src = "";
         static string whitelist_src = "";
