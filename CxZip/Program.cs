@@ -15,6 +15,7 @@ namespace CxZip
         static string whitelist_src = "";
         static List<cxFile> file_list = new List<cxFile>();
         static List<string> whiteList = new List<string>();
+        static bool verbose = false;
 
         static int longest_path = 0;
         static int file_count = 0;
@@ -80,7 +81,8 @@ namespace CxZip
                 foreach (cxFile f in file_list)
                 {
                     string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
-                    Console.WriteLine("Adding: " + rel_f + f.name);
+                    if(verbose)
+                        Console.WriteLine("Adding: " + rel_f + f.name);
 
                     if ((rel_f + f.name).Length > longest_path)
                         longest_path = (rel_f + f.name).Length;
