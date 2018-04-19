@@ -9,13 +9,12 @@ namespace CxZip
 {
     class Program
     {
-        static string VERSION = "1.2";
+        static string VERSION = "1.3";
         static string dest = "";
         static string src = "";
         static string whitelist_src = "";
         static List<cxFile> file_list = new List<cxFile>();
         static List<string> whiteList = new List<string>();
-        static bool verbose = false;
 
         static int longest_path = 0;
         static int file_count = 0;
@@ -81,7 +80,7 @@ namespace CxZip
                 foreach (cxFile f in file_list)
                 {
                     string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
-                    if(verbose)
+                    if ((rel_f + f.name).Length > 220)
                         Console.WriteLine("Adding: " + rel_f + f.name);
 
                     if ((rel_f + f.name).Length > longest_path)
