@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Ionic.Zip;
 using System.IO;
@@ -9,7 +9,7 @@ namespace CxZip
 {
     class Program
     {
-        static string VERSION = "1.3";
+        static string VERSION = "1.4";
         static string dest = "";
         static string src = "";
         static string whitelist_src = "";
@@ -79,6 +79,7 @@ namespace CxZip
             {
                 foreach (cxFile f in file_list)
                 {
+                    Console.WriteLine("Total files to add:  " + file_list.Count);
                     string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
                     if ((rel_f + f.name).Length > 220)
                         Console.WriteLine("Adding: " + rel_f + f.name);
@@ -94,6 +95,8 @@ namespace CxZip
                 }//end foreach
                 Console.WriteLine();
                 Console.WriteLine("Compressing files...");
+
+                archive.UseZip64WhenSaving = Zip64Option.AsNecessary; //add in v1.4
                 archive.Save(dest);
                 Console.WriteLine("Archive saved.");
             }//end using
