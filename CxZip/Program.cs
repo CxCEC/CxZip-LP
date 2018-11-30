@@ -9,7 +9,7 @@ namespace CxZip
 {
     class Program
     {
-        static string VERSION = "1.5";
+        static string VERSION = "1.61";
         static string dest = "";
         static string src = "";
         static string whitelist_src = "";
@@ -78,6 +78,10 @@ namespace CxZip
             using (ZipFile archive = new ZipFile())
             {
                 Console.WriteLine("Total files to add:  " + file_list.Count);
+                
+                archive.AlternateEncodingUsage = ZipOption.AsNecessary;
+                archive.AlternateEncoding = System.Text.Encoding.UTF8;
+                
                 foreach (cxFile f in file_list)
                 {
                     string rel_f = f.path.Substring(0, f.path.LastIndexOf(f.name)).Replace(src, "");
